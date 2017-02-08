@@ -54,17 +54,14 @@ int main()
 
             if (obstacles.size() > 6)
             {
-                auto& left = obstacles.back();
-                auto& right = std::prev(obstacles.end(), 2);
                 obstacles.pop_back();
                 obstacles.pop_back();
             }
-            std::cout << obstacles.size() << std::endl;
         }
 
         for (auto& obstacle : obstacles)
         {
-            obstacle.getShape().move(0, VELOCITY * dt);
+            obstacle.getShape().move(0, velocity * dt);
         }
 
         window.clear(sf::Color(10, 0, 30));
