@@ -1,14 +1,15 @@
 #include "Obstacle.h"
+#include "Constants.h"
 
-Obstacle::Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos, int lane_width)
-    : m_type(type)
+Obstacle::Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos) :
+    m_type(type)
 {
     if (type == Circle)
     {
-        m_shape = std::unique_ptr<sf::Shape>(new sf::CircleShape(lane_width / 3));
+        m_shape = std::unique_ptr<sf::Shape>(new sf::CircleShape(OBJECT_WIDTH / 2));
     }
     else
-        m_shape = std::unique_ptr<sf::Shape>(new sf::RectangleShape({2 * lane_width / 3, 2 * lane_width / 3}));
+        m_shape = std::unique_ptr<sf::Shape>(new sf::RectangleShape({OBJECT_WIDTH, OBJECT_WIDTH}));
 
     m_shape->setPosition(pos);
     m_shape->setFillColor(color);

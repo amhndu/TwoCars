@@ -2,14 +2,22 @@
 #define CAR_H
 #include <SFML/Graphics.hpp>
 
-class Car
+class Car : public sf::Drawable
 {
     public:
+        enum Lane { Left = -1, Right = 1};
         Car(const sf::Color& color, const sf::Vector2f& pos);
-        void switchLane(int lane_width);
+        void setKey(sf::Keyboard::Key key);
+        void handleInput(const sf::Event& event);
+    protected:
+        void draw(sf::RenderTarget& target, const sf::RenderStates states) const;
     private:
-        enum Lane {Left, Right} m_lane;
+        void setLane(Lane lane);
+
+        Lane m_lane;
         sf::RectangleShape m_shape;
+        sf::Keyboard::Key m_key;
+        sf::Vector2f m_center;
 };
 
 #endif // CAR_H

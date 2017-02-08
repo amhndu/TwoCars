@@ -11,7 +11,7 @@ class Obstacle : public sf::Drawable
             Circle,
             Square,
         };
-        Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos, int lane_width);
+        Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos);
         sf::Shape& getShape();
     protected:
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -5,11 +5,8 @@
 #include <algorithm>
 
 #include "Obstacle.h"
-
-const int LANE_WIDTH = 80;
-const int WINDOW_HEIGHT = 700;
-const int SPAWN_DIST = 150;
-
+#include "Constants.h"
+#include "Car.h"
 
 int main()
 {
@@ -24,36 +21,41 @@ int main()
     dividers[5] = sf::Vertex({LANE_WIDTH * 2, WINDOW_HEIGHT}, sf::Color(180, 180, 180));
 
     std::list<Obstacle> obstacles;
+    Car leftCar (LEFT_COLOR,  sf::Vector2f{LANE_WIDTH, WINDOW_HEIGHT}),
+        rightCar(RIGHT_COLOR, sf::Vector2f{LANE_WIDTH * 3, WINDOW_HEIGHT});
+    leftCar .setKey(sf::Keyboard::F);
+    rightCar.setKey(sf::Keyboard::J);
+
     sf::Event event;
     sf::Clock timer;
-    float distance = SPAWN_DIST, velocity = 100;
+    float distance = SPAWN_DIST, velocity = INITIAL_VELOCITY;
     while (window.isOpen())
     {
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            leftCar.handleInput(event);
+            rightCar.handleInput(event);
         }
 
         auto dt = timer.restart().asSeconds();
         distance += velocity * dt;
         if (distance > SPAWN_DIST)
         {
-            //IMP: Order of insertion of left and right matter
+            //IMP: Order of insertion matters, the order is used to reference which side it belongs
             obstacles.emplace_front(static_cast<Obstacle::Type>(rand() % 2),
-                                          sf::Color::Red,
-                                          sf::Vector2f{LANE_WIDTH / 2 + LANE_WIDTH * (rand() % 2), 0},
-                                          LANE_WIDTH);
+                                          LEFT_COLOR,
+                                          sf::Vector2f{LANE_WIDTH / 2.f + LANE_WIDTH * (rand() % 2), 0});
             obstacles.emplace_front(static_cast<Obstacle::Type>(rand() % 2),
-                                          sf::Color::Blue,
-                                          sf::Vector2f{LANE_WIDTH * 2 + LANE_WIDTH / 2 + LANE_WIDTH * (rand() % 2), 0},
-                                          LANE_WIDTH);
+                                          RIGHT_COLOR,
+                                          sf::Vector2f{LANE_WIDTH * 2.f + LANE_WIDTH / 2 + LANE_WIDTH * (rand() % 2), 0});
             distance -= SPAWN_DIST;
 
-            if (obstacles.size() > 8)
+            if (obstacles.size() > 6)
             {
-                auto& right = obstacles.back();
-                auto& left  = obstacles.back();
+                auto& left = obstacles.back();
+                auto& right = std::prev(obstacles.end(), 2);
                 obstacles.pop_back();
                 obstacles.pop_back();
             }
@@ -62,12 +64,15 @@ int main()
 
         for (auto& obstacle : obstacles)
         {
-            obstacle.getShape().move(0, velocity * dt);
+            obstacle.getShape().move(0, VELOCITY * dt);
         }
+
         window.clear(sf::Color(10, 0, 30));
         window.draw(dividers);
         for (auto& o : obstacles)
             window.draw(o);
+        window.draw(leftCar);
+        window.draw(rightCar);
         window.display();
     }
 
