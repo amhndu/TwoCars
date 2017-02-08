@@ -21,6 +21,11 @@ sf::Shape& Obstacle::getShape()
     return *m_shape;
 }
 
+Obstacle::Type Obstacle::getType()
+{
+    return m_type;
+}
+
 void Obstacle::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(*m_shape, states);

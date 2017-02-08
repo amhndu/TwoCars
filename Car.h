@@ -9,6 +9,7 @@ class Car : public sf::Drawable
         Car(const sf::Color& color, const sf::Vector2f& pos);
         void setKey(sf::Keyboard::Key key);
         void handleInput(const sf::Event& event);
+        Lane getLane();
     protected:
         void draw(sf::RenderTarget& target, const sf::RenderStates states) const;
     private:

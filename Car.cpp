@@ -24,6 +24,11 @@ void Car::handleInput(const sf::Event& event)
     }
 }
 
+Car::Lane Car::getLane()
+{
+    return m_lane;
+}
+
 void Car::draw(sf::RenderTarget& target, const sf::RenderStates states) const
 {
     target.draw(m_shape);
