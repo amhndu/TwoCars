@@ -13,7 +13,7 @@ class Car : public sf::Drawable
         void applyTexture();
         static sf::Texture m_carTexture;
         void update(float dt);
-        void reset();
+        void reset(Lane lane);
     protected:
         void draw(sf::RenderTarget& target, const sf::RenderStates states) const;
     private:

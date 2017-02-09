@@ -37,10 +37,10 @@ Car::Lane Car::getLane()
     return m_lane;
 }
 
-void Car::reset()
+void Car::reset(Lane lane)
 {
     m_transition = 0;
-    m_lane = Left;
+    m_lane = lane;
     m_shape.setPosition(m_center + sf::Vector2f{LANE_WIDTH / 2.f * m_lane, 0});
 }
 

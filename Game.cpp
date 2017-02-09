@@ -41,21 +41,23 @@ Game::Game() :
     Car::m_carTexture.loadFromFile("assets/car.png");
     m_leftCar.applyTexture();
     m_rightCar.applyTexture();
-
+    m_leftCar.reset(Car::Right);
+    m_rightCar.reset(Car::Left);
     m_bgMusic.openFromFile("assets/bgm.ogg");
     m_bgMusic.setLoop(true);
 }
 
 void Game::newGame()
 {
-    m_bgMusic.play();
+    if (m_bgMusic.getStatus() != sf::SoundSource::Playing)
+        m_bgMusic.play();
     m_obstacles.clear();
     m_score = 1 - OBJS_ON_SCREEN / 2;
     m_velocity = INITIAL_VELOCITY;
     m_distance = SPAWN_DIST;
     m_playing = true;
-    m_leftCar.reset();
-    m_rightCar.reset();
+    m_leftCar.reset(Car::Right);
+    m_rightCar.reset(Car::Left);
 }
 
 void Game::run()
