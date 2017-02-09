@@ -2,7 +2,7 @@
 #include "Constants.h"
 
 Car::Car(const sf::Color& color, const sf::Vector2f& pos) :
-    m_shape({OBJECT_WIDTH, CAR_HEIGHT}),
+    m_shape({OBJECT_SIZE, CAR_HEIGHT}),
     m_key(sf::Keyboard::Space),
     m_center(pos)
 {

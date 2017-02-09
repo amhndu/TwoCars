@@ -6,10 +6,10 @@ Obstacle::Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos) :
 {
     if (type == Circle)
     {
-        m_shape = std::unique_ptr<sf::Shape>(new sf::CircleShape(OBJECT_WIDTH / 2));
+        m_shape = std::unique_ptr<sf::Shape>(new sf::CircleShape(OBJECT_SIZE / 2));
     }
     else
-        m_shape = std::unique_ptr<sf::Shape>(new sf::RectangleShape({OBJECT_WIDTH, OBJECT_WIDTH}));
+        m_shape = std::unique_ptr<sf::Shape>(new sf::RectangleShape({OBJECT_SIZE, OBJECT_SIZE}));
 
     m_shape->setPosition(pos);
     m_shape->setFillColor(color);
