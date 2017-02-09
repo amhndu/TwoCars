@@ -46,6 +46,8 @@ void Game::newGame()
     m_velocity = INITIAL_VELOCITY;
     m_distance = SPAWN_DIST;
     m_playing = true;
+    m_leftCar.reset();
+    m_rightCar.reset();
 }
 
 void Game::run()
@@ -87,7 +89,6 @@ void Game::run()
                                             RIGHT_COLOR,
                                             sf::Vector2f{LANE_WIDTH * 2.f + LANE_WIDTH / 2 + LANE_WIDTH * (rand() % 2), 0});
                 m_distance -= SPAWN_DIST;
-                std::cout << m_obstacles.size() << std::endl;
             }
 
             for(auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it)
@@ -118,7 +119,11 @@ void Game::run()
                     it = std::prev(m_obstacles.erase(it));
                 }
             }
+
+            m_leftCar.update(dt);
+            m_rightCar.update(dt);
         }
+
 
         m_window.clear(BACKGROUND_COLOR);
         m_window.draw(m_dividers);

@@ -43,7 +43,7 @@ endif()
 add_executable(twocars ${SOURCES})
 target_link_libraries(twocars ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
 
-set_property(TARGET twocars PROPERTY CXX_STANDARD 14)
+set_property(TARGET twocars PROPERTY CXX_STANDARD 11)
 set_property(TARGET twocars PROPERTY CXX_STANDARD_REQUIRED ON)
 
 target_link_libraries(twocars)

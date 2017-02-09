@@ -12,11 +12,16 @@ class Car : public sf::Drawable
         Lane getLane();
         void applyTexture();
         static sf::Texture m_carTexture;
+        void update(float dt);
+        void reset();
     protected:
         void draw(sf::RenderTarget& target, const sf::RenderStates states) const;
     private:
         void setLane(Lane lane);
 
+        int m_transition;
+        int m_targetX;
+        int m_prevX;
         Lane m_lane;
         sf::RectangleShape m_shape;
         sf::Keyboard::Key m_key;
