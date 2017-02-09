@@ -20,16 +20,21 @@ class Game
         void newGame();
         static bool isGameOver(Car::Lane carLane, Car::Lane objLane, Obstacle::Type type);
 
-        sf::RenderWindow window;
-        sf::VertexArray dividers;
-        std::deque<Obstacle> obstacles;
-        Car leftCar,
-            rightCar;
-        sf::Clock timer;
-        int score = 0;
-        bool playing;
-        float distance,
-              velocity;
+        sf::RenderWindow m_window;
+
+        sf::VertexArray m_dividers;
+        std::deque<Obstacle> m_obstacles;
+        Car m_leftCar,
+            m_rightCar;
+
+        sf::Font m_font;
+        sf::Text m_prompt;
+        sf::RectangleShape m_overlayBg;
+        sf::Clock m_timer;
+        int m_score;
+        bool m_playing;
+        float m_distance,
+              m_velocity;
 };
 
 #endif // GAME_H

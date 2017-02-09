@@ -22,6 +22,9 @@ file(GLOB SOURCES
     "${PROJECT_SOURCE_DIR}/*.cpp"
 )
 
+# Copy font
+file(COPY font.ttf DESTINATION .)
+
 # Find SFML
 if (SFML_OS_WINDOWS AND SFML_COMPILER_MSVC)
     find_package( SFML 2 COMPONENTS main audio graphics window system REQUIRED)
