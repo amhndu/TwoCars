@@ -10,6 +10,8 @@ Game::Game() :
     m_overlayBg({LANE_WIDTH * 4, WINDOW_HEIGHT}),
     m_playing(false)
 {
+    m_window.setVerticalSyncEnabled(true);
+
     m_dividers[0] = sf::Vertex({LANE_WIDTH, 0}, sf::Color(180, 180, 180));
     m_dividers[1] = sf::Vertex({LANE_WIDTH, WINDOW_HEIGHT}, sf::Color(180, 180, 180));
     m_dividers[2] = sf::Vertex({LANE_WIDTH * 3, 0}, sf::Color(180, 180, 180));
@@ -40,12 +42,15 @@ Game::Game() :
     m_leftCar.applyTexture();
     m_rightCar.applyTexture();
 
+    m_bgMusic.openFromFile("assets/bgm.ogg");
+    m_bgMusic.setLoop(true);
 }
 
 void Game::newGame()
 {
+    m_bgMusic.play();
     m_obstacles.clear();
-    m_score = -OBJS_ON_SCREEN / 2;
+    m_score = 1 - OBJS_ON_SCREEN / 2;
     m_velocity = INITIAL_VELOCITY;
     m_distance = SPAWN_DIST;
     m_playing = true;
@@ -112,7 +117,7 @@ void Game::run()
                         it = std::prev(m_obstacles.erase(it));
                     }
                 }
-                else if (it->getShape().getGlobalBounds().top > WINDOW_HEIGHT - OBJECT_SIZE)
+                else if (it->getShape().getGlobalBounds().top > WINDOW_HEIGHT)
                 {
                     if (it->getType() == Obstacle::Circle)
                     {

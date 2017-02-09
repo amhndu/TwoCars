@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <deque>
 #include <memory>
@@ -31,6 +32,8 @@ class Game
         sf::Font m_font;
         sf::Text m_prompt;
         sf::RectangleShape m_overlayBg;
+
+        sf::Music m_bgMusic;
 
         sf::Clock m_timer;
         int m_score;
