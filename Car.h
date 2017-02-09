@@ -10,6 +10,8 @@ class Car : public sf::Drawable
         void setKey(sf::Keyboard::Key key);
         void handleInput(const sf::Event& event);
         Lane getLane();
+        void applyTexture();
+        static sf::Texture m_carTexture;
     protected:
         void draw(sf::RenderTarget& target, const sf::RenderStates states) const;
     private:

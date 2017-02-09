@@ -22,8 +22,8 @@ file(GLOB SOURCES
     "${PROJECT_SOURCE_DIR}/*.cpp"
 )
 
-# Copy font
-file(COPY font.ttf DESTINATION .)
+# Copy assets to build directory
+file(COPY assets DESTINATION .)
 
 # Find SFML
 if (SFML_OS_WINDOWS AND SFML_COMPILER_MSVC)

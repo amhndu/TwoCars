@@ -14,6 +14,8 @@ class Obstacle : public sf::Drawable
         Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos);
         sf::Shape& getShape();
         Type getType();
+        static sf::Texture m_circleTexture;
+        static sf::Texture m_squareTexture;
     protected:
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         Type m_type;

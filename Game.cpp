@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <cstdlib>
 
 Game::Game() :
     m_window(sf::VideoMode(LANE_WIDTH * 4, WINDOW_HEIGHT), "TwoCars", sf::Style::Close | sf::Style::Titlebar),
@@ -18,7 +19,7 @@ Game::Game() :
     m_leftCar .setKey(sf::Keyboard::F);
     m_rightCar.setKey(sf::Keyboard::J);
 
-    m_font.loadFromFile("font.ttf");
+    m_font.loadFromFile("assets/font.ttf");
     m_prompt.setFont(m_font);
     m_prompt.setColor(sf::Color(180, 180, 180));
     m_prompt.setCharacterSize(20);
@@ -28,9 +29,13 @@ Game::Game() :
     m_prompt.setPosition((m_window.getSize().x - m_prompt.getLocalBounds().width) / 2.f,
                          (m_window.getSize().y - m_prompt.getLocalBounds().height) / 2.f);
 
-    m_overlayBg.setFillColor(sf::Color(0, 0, 0, 150));
+    m_overlayBg.setFillColor(sf::Color(0, 0, 0, 100));
 
-    //newGame();
+    Obstacle::m_circleTexture.loadFromFile("assets/circle.png");
+    Obstacle::m_squareTexture.loadFromFile("assets/triangle.png");
+    Car::m_carTexture.loadFromFile("assets/car.png");
+    m_leftCar.applyTexture();
+    m_rightCar.applyTexture();
 }
 
 void Game::newGame()
@@ -44,6 +49,7 @@ void Game::newGame()
 
 void Game::run()
 {
+    srand(time(nullptr));
     sf::Event event;
     while (m_window.isOpen())
     {
@@ -113,7 +119,7 @@ void Game::run()
             }
         }
 
-        m_window.clear(sf::Color(10, 0, 30));
+        m_window.clear(BACKGROUND_COLOR);
         m_window.draw(m_dividers);
         for (auto& o : m_obstacles)
             m_window.draw(o);

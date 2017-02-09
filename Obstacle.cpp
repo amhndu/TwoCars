@@ -1,15 +1,22 @@
 #include "Obstacle.h"
 #include "Constants.h"
 
+sf::Texture Obstacle::m_circleTexture;
+sf::Texture Obstacle::m_squareTexture;
+
 Obstacle::Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos) :
     m_type(type)
 {
     if (type == Circle)
     {
         m_shape = std::unique_ptr<sf::Shape>(new sf::CircleShape(OBJECT_SIZE / 2));
+        m_shape->setTexture(&m_circleTexture);
     }
     else
+    {
         m_shape = std::unique_ptr<sf::Shape>(new sf::RectangleShape({OBJECT_SIZE, OBJECT_SIZE}));
+        m_shape->setTexture(&m_squareTexture);
+    }
 
     m_shape->setPosition(pos);
     m_shape->setFillColor(color);

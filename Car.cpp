@@ -1,6 +1,8 @@
 #include "Car.h"
 #include "Constants.h"
 
+sf::Texture Car::m_carTexture;
+
 Car::Car(const sf::Color& color, const sf::Vector2f& pos) :
     m_shape({OBJECT_SIZE, CAR_HEIGHT}),
     m_key(sf::Keyboard::Space),
@@ -11,6 +13,10 @@ Car::Car(const sf::Color& color, const sf::Vector2f& pos) :
     setLane(Left);
 }
 
+void Car::applyTexture()
+{
+    m_shape.setTexture(&m_carTexture);
+}
 void Car::setKey(sf::Keyboard::Key key)
 {
     m_key = key;
