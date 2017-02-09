@@ -68,7 +68,7 @@ void Car::update(float dt)
 
 void Car::draw(sf::RenderTarget& target, const sf::RenderStates states) const
 {
-    target.draw(m_shape);
+    target.draw(m_shape, states);
 }
 
 void Car::setLane(Car::Lane lane)

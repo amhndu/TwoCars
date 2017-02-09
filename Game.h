@@ -31,6 +31,7 @@ class Game
         sf::Font m_font;
         sf::Text m_prompt;
         sf::RectangleShape m_overlayBg;
+
         sf::Clock m_timer;
         int m_score;
         bool m_playing;

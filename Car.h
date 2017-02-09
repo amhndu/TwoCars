@@ -21,7 +21,6 @@ class Car : public sf::Drawable
 
         int m_transition;
         int m_targetX;
-        int m_prevX;
         Lane m_lane;
         sf::RectangleShape m_shape;
         sf::Keyboard::Key m_key;

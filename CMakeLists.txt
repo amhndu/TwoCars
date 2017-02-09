@@ -25,6 +25,15 @@ file(GLOB SOURCES
 # Copy assets to build directory
 file(COPY assets DESTINATION .)
 
+# Set static if BUILD_STATIC is set
+if (BUILD_STATIC)
+    set(SFML_STATIC_LIBRARIES TRUE)
+    # Link libgcc and libstc++ statically as well
+    if(CMAKE_COMPILER_IS_GNUCXX)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+    endif()
+endif()
+
 # Find SFML
 if (SFML_OS_WINDOWS AND SFML_COMPILER_MSVC)
     find_package( SFML 2 COMPONENTS main audio graphics window system REQUIRED)

@@ -20,6 +20,7 @@ Game::Game() :
     m_leftCar .setKey(sf::Keyboard::Z);
     m_rightCar.setKey(sf::Keyboard::M);
 
+    //TODO What should I do if loading this fails ?
     m_font.loadFromFile("assets/font.ttf");
     m_prompt.setFont(m_font);
     m_prompt.setColor(sf::Color(180, 180, 180));
@@ -32,11 +33,13 @@ Game::Game() :
 
     m_overlayBg.setFillColor(sf::Color(0, 0, 0, 100));
 
+    //If these fail to load, simple Circles/Rectangles will be used.
     Obstacle::m_circleTexture.loadFromFile("assets/circle.png");
     Obstacle::m_triangleTexture.loadFromFile("assets/triangle.png");
     Car::m_carTexture.loadFromFile("assets/car.png");
     m_leftCar.applyTexture();
     m_rightCar.applyTexture();
+
 }
 
 void Game::newGame()
