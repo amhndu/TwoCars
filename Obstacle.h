@@ -9,13 +9,13 @@ class Obstacle : public sf::Drawable
         enum Type
         {
             Circle,
-            Square,
+            Triangle,
         };
         Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos);
         sf::Shape& getShape();
         Type getType();
         static sf::Texture m_circleTexture;
-        static sf::Texture m_squareTexture;
+        static sf::Texture m_triangleTexture;
     protected:
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         Type m_type;

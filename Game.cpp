@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <cstdlib>
+#include <iterator>
 
 Game::Game() :
     m_window(sf::VideoMode(LANE_WIDTH * 4, WINDOW_HEIGHT), "TwoCars", sf::Style::Close | sf::Style::Titlebar),
@@ -16,15 +17,15 @@ Game::Game() :
     m_dividers[4] = sf::Vertex({LANE_WIDTH * 2, 0}, sf::Color(180, 180, 180));
     m_dividers[5] = sf::Vertex({LANE_WIDTH * 2, WINDOW_HEIGHT}, sf::Color(180, 180, 180));
 
-    m_leftCar .setKey(sf::Keyboard::F);
-    m_rightCar.setKey(sf::Keyboard::J);
+    m_leftCar .setKey(sf::Keyboard::Z);
+    m_rightCar.setKey(sf::Keyboard::M);
 
     m_font.loadFromFile("assets/font.ttf");
     m_prompt.setFont(m_font);
     m_prompt.setColor(sf::Color(180, 180, 180));
     m_prompt.setCharacterSize(20);
-    m_prompt.setString("Take all Circles, avoid all Squares.\n"
-                       "Control left car with F, right with L.\n"
+    m_prompt.setString("Take all Circles, avoid all Triangles.\n"
+                       "Control left car with Z, right with M.\n"
                        "       Press Space to start.");
     m_prompt.setPosition((m_window.getSize().x - m_prompt.getLocalBounds().width) / 2.f,
                          (m_window.getSize().y - m_prompt.getLocalBounds().height) / 2.f);
@@ -32,7 +33,7 @@ Game::Game() :
     m_overlayBg.setFillColor(sf::Color(0, 0, 0, 100));
 
     Obstacle::m_circleTexture.loadFromFile("assets/circle.png");
-    Obstacle::m_squareTexture.loadFromFile("assets/triangle.png");
+    Obstacle::m_triangleTexture.loadFromFile("assets/triangle.png");
     Car::m_carTexture.loadFromFile("assets/car.png");
     m_leftCar.applyTexture();
     m_rightCar.applyTexture();
@@ -41,7 +42,7 @@ Game::Game() :
 void Game::newGame()
 {
     m_obstacles.clear();
-    m_score = 0;
+    m_score = -OBJS_ON_SCREEN / 2;
     m_velocity = INITIAL_VELOCITY;
     m_distance = SPAWN_DIST;
     m_playing = true;
@@ -78,7 +79,7 @@ void Game::run()
 
             if (m_distance > SPAWN_DIST)
             {
-                //IMP: Order of insertion matters, the order is used to reference which side it belongs
+                ++m_score;
                 m_obstacles.emplace_front(static_cast<Obstacle::Type>(rand() % 2),
                                             LEFT_COLOR,
                                             sf::Vector2f{LANE_WIDTH / 2.f + LANE_WIDTH * (rand() % 2), 0});
@@ -86,36 +87,36 @@ void Game::run()
                                             RIGHT_COLOR,
                                             sf::Vector2f{LANE_WIDTH * 2.f + LANE_WIDTH / 2 + LANE_WIDTH * (rand() % 2), 0});
                 m_distance -= SPAWN_DIST;
+                std::cout << m_obstacles.size() << std::endl;
             }
 
-            for (auto& obstacle : m_obstacles)
+            for(auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it)
             {
-                obstacle.getShape().move(0, m_velocity * dt);
-            }
-
-            if (m_obstacles.back().getShape().getGlobalBounds().top > WINDOW_HEIGHT - CAR_HEIGHT - OBJECT_SIZE)
-            {
-                auto &left = m_obstacles.back();
-                Car::Lane lLane = left.getShape().getGlobalBounds().left < LANE_WIDTH ? Car::Left : Car::Right;
-                Obstacle::Type lType = left.getType();
-
-                auto &right = m_obstacles[m_obstacles.size() - 2];
-                Car::Lane rLane = right.getShape().getGlobalBounds().left < 3 * LANE_WIDTH ? Car::Left : Car::Right;
-                Obstacle::Type rType = right.getType();
-
-                if (isGameOver(lLane, m_leftCar.getLane(), lType) || isGameOver(rLane, m_rightCar.getLane(), rType))
+                it->getShape().move(0, m_velocity * dt);
+                if (it->getShape().getGlobalBounds().top > WINDOW_HEIGHT - CAR_HEIGHT - OBJECT_SIZE
+                    && it->getShape().getGlobalBounds().top < WINDOW_HEIGHT - OBJECT_SIZE)
                 {
-                    m_playing = false;
-                    m_prompt.setString(" You scored " + std::to_string(m_score) + ".\n"
-                       " Press Space to restart.");
-                    m_prompt.setPosition(0,
-                         (m_window.getSize().y - m_prompt.getLocalBounds().height) / 2.f);
+                    auto& car = it->getShape().getGlobalBounds().left < 2 * LANE_WIDTH ? m_leftCar : m_rightCar;
+                    Car::Lane lane = static_cast<int>(it->getShape().getGlobalBounds().left / LANE_WIDTH) % 2 ? Car::Right : Car::Left;
+                    if (lane == car.getLane())
+                    {
+                        if (it->getType() == Obstacle::Triangle)
+                        {
+                            gameOver();
+                            break;
+                        }
+                        it = std::prev(m_obstacles.erase(it));
+                    }
                 }
-                else
-                    ++m_score;
-
-                m_obstacles.pop_back();
-                m_obstacles.pop_back();
+                else if (it->getShape().getGlobalBounds().top > WINDOW_HEIGHT - OBJECT_SIZE)
+                {
+                    if (it->getType() == Obstacle::Circle)
+                    {
+                        gameOver();
+                        break;
+                    }
+                    it = std::prev(m_obstacles.erase(it));
+                }
             }
         }
 
@@ -137,7 +138,16 @@ void Game::run()
 bool Game::isGameOver(Car::Lane carLane, Car::Lane objLane, Obstacle::Type type)
 {
     if ((carLane == objLane && type == Obstacle::Circle)
-        || (carLane != objLane && type == Obstacle::Square))
+        || (carLane != objLane && type == Obstacle::Triangle))
             return false;
     return true;
+}
+
+void Game::gameOver()
+{
+    m_playing = false;
+    m_prompt.setString(" You scored " + std::to_string(m_score) + ".\n"
+        " Press Space to restart.");
+    m_prompt.setPosition(0,
+            (m_window.getSize().y - m_prompt.getLocalBounds().height) / 2.f);
 }

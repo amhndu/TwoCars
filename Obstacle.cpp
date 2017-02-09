@@ -2,7 +2,7 @@
 #include "Constants.h"
 
 sf::Texture Obstacle::m_circleTexture;
-sf::Texture Obstacle::m_squareTexture;
+sf::Texture Obstacle::m_triangleTexture;
 
 Obstacle::Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos) :
     m_type(type)
@@ -15,7 +15,7 @@ Obstacle::Obstacle(Type type, const sf::Color& color, const sf::Vector2f& pos) :
     else
     {
         m_shape = std::unique_ptr<sf::Shape>(new sf::RectangleShape({OBJECT_SIZE, OBJECT_SIZE}));
-        m_shape->setTexture(&m_squareTexture);
+        m_shape->setTexture(&m_triangleTexture);
     }
 
     m_shape->setPosition(pos);

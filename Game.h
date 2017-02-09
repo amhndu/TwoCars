@@ -18,6 +18,7 @@ class Game
         void run();
     private:
         void newGame();
+        void gameOver();
         static bool isGameOver(Car::Lane carLane, Car::Lane objLane, Obstacle::Type type);
 
         sf::RenderWindow m_window;
