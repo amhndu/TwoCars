@@ -24,7 +24,7 @@ Game::Game() :
     m_prompt.setCharacterSize(20);
     m_prompt.setString("Take all Circles, avoid all Squares.\n"
                        "Control left car with F, right with L.\n"
-                       "       Press any key to start.");
+                       "       Press Space to start.");
     m_prompt.setPosition((m_window.getSize().x - m_prompt.getLocalBounds().width) / 2.f,
                          (m_window.getSize().y - m_prompt.getLocalBounds().height) / 2.f);
 
@@ -56,7 +56,7 @@ void Game::run()
                 m_leftCar.handleInput(event);
                 m_rightCar.handleInput(event);
             }
-            else if (event.type == sf::Event::KeyReleased)
+            else if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
             {
                 m_playing = true;
                 newGame();
@@ -101,7 +101,7 @@ void Game::run()
                 {
                     m_playing = false;
                     m_prompt.setString(" You scored " + std::to_string(m_score) + ".\n"
-                       " Press any key to restart.");
+                       " Press Space to restart.");
                     m_prompt.setPosition(0,
                          (m_window.getSize().y - m_prompt.getLocalBounds().height) / 2.f);
                 }
