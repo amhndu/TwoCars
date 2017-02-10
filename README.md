@@ -6,7 +6,7 @@ TwoCars is a simple 2D endless runner where you simultaneously control two cars 
 avoiding all triangles to keep running.
 How much can you score ?
 
-Keybindings: Z/M to change lane of the left/right car
+Keybindings: F/J to change lane of the left/right car
 
 
 Screenshots

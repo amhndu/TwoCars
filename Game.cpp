@@ -19,8 +19,8 @@ Game::Game() :
     m_dividers[4] = sf::Vertex({LANE_WIDTH * 2, 0}, sf::Color(180, 180, 180));
     m_dividers[5] = sf::Vertex({LANE_WIDTH * 2, WINDOW_HEIGHT}, sf::Color(180, 180, 180));
 
-    m_leftCar .setKey(sf::Keyboard::Z);
-    m_rightCar.setKey(sf::Keyboard::M);
+    m_leftCar .setKey(sf::Keyboard::F);
+    m_rightCar.setKey(sf::Keyboard::J);
 
     //TODO What should I do if loading this fails ?
     m_font.loadFromFile("assets/font.ttf");
@@ -28,7 +28,7 @@ Game::Game() :
     m_prompt.setColor(sf::Color(180, 180, 180));
     m_prompt.setCharacterSize(20);
     m_prompt.setString("Take all Circles, avoid all Triangles.\n"
-                       "Control left car with Z, right with M.\n"
+                       "Control left car with F, right with J.\n"
                        "       Press Space to start.");
     m_prompt.setPosition((m_window.getSize().x - m_prompt.getLocalBounds().width) / 2.f,
                          (m_window.getSize().y - m_prompt.getLocalBounds().height) / 2.f);
