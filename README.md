@@ -2,9 +2,10 @@ TwoCars
 ================
 
 A clone of the 2 Cars game in C++14/SFML
+TwoCars is a simple 2D endless runner where you simultaneously control two cars while taking all the circles and
+avoiding all triangles to keep running.
+How much can you score ?
 
-
-Aim: Control two cars while avoiding all Triangles and taking all Circles
 Keybindings: Z/M to change lane of the left/right car
 
 
@@ -18,4 +19,4 @@ Screenshots
 
 Video
 -----------------
-[Watch on YouTube](https://youtu.be/236QAE3PvhU)
+[Watch on YouTube](https://youtu.be/BSCoVgsL9Lg)
