@@ -34,6 +34,8 @@ void Car::handleInput(const sf::Event& event)
 
 Car::Lane Car::getLane()
 {
+    if (m_transition != 0)
+        return (static_cast<int>(m_shape.getPosition().x / LANE_WIDTH) % 2) ? Car::Right : Car::Left;
     return m_lane;
 }
 
